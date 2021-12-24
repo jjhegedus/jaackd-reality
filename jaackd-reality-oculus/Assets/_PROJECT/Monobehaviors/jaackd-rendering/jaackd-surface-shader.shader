@@ -13,6 +13,7 @@ Shader "Instanced/InstancedSurfaceShader" {
             #pragma surface surf Standard addshadow fullforwardshadows
             #pragma multi_compile_instancing
             #pragma instancing_options procedural:setup
+            #pragma target 5.0
 
             sampler2D _MainTex;
 
@@ -22,6 +23,7 @@ Shader "Instanced/InstancedSurfaceShader" {
 
         #ifdef UNITY_PROCEDURAL_INSTANCING_ENABLED
             StructuredBuffer<float4> positionBuffer;
+            StructuredBuffer<float4> materialsBuffer;
         #endif
 
             void rotate2D(inout float2 v, float r)
@@ -54,10 +56,15 @@ Shader "Instanced/InstancedSurfaceShader" {
 
             void surf(Input IN, inout SurfaceOutputStandard o) {
                 fixed4 c = tex2D(_MainTex, IN.uv_MainTex);
-                o.Albedo = c.rgb;
+                //o.Albedo = c.rgb;
                 o.Metallic = _Metallic;
                 o.Smoothness = _Glossiness;
                 o.Alpha = c.a;
+
+#ifdef UNITY_PROCEDURAL_INSTANCING_ENABLED
+                float4 clr = materialsBuffer[0];
+                o.Albedo = clr.rgb;
+#endif
             }
             ENDCG
         }

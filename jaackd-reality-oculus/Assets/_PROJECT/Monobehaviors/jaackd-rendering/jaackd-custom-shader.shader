@@ -23,6 +23,7 @@ Shader "Instanced/InstancedShader" {
 
             #if SHADER_TARGET >= 45
                 StructuredBuffer<float4> positionBuffer;
+                StructuredBuffer<float4> materialsBuffer;
             #endif
 
                 struct v2f
@@ -71,6 +72,12 @@ Shader "Instanced/InstancedShader" {
                     o.diffuse = diffuse;
                     o.color = color;
                     TRANSFER_SHADOW(o)
+
+
+                    #if SHADER_TARGET >= 45
+                        o.color = materialsBuffer[0];
+                    #endif
+
                     return o;
                 }
 

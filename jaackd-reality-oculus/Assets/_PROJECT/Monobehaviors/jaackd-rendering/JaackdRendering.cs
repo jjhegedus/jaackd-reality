@@ -10,12 +10,14 @@ public class JaackdRendering : MonoBehaviour {
   private int cachedInstanceCount = -1;
   private int cachedSubMeshIndex = -1;
   private ComputeBuffer positionBuffer;
+  private ComputeBuffer materialsBuffer;
   private ComputeBuffer argsBuffer;
   private uint[] args = new uint[5] { 0, 0, 0, 0, 0 };
 
   void Start() {
     argsBuffer = new ComputeBuffer(1, args.Length * sizeof(uint), ComputeBufferType.IndirectArguments);
     UpdateBuffers();
+    UpdateMaterialsBuffer();
   }
 
   void Update() {
@@ -80,4 +82,16 @@ public class JaackdRendering : MonoBehaviour {
       argsBuffer.Release();
     argsBuffer = null;
   }
+
+  void UpdateMaterialsBuffer() {
+    if (materialsBuffer != null)
+      materialsBuffer.Release();
+    materialsBuffer = new ComputeBuffer(1, (sizeof(float) * 4));
+    Vector4[] materials = new Vector4[1];
+    materials[0] = new Vector4(1, 1, 0, 1);
+
+    materialsBuffer.SetData(materials);
+    instanceMaterial.SetBuffer("materialsBuffer", materialsBuffer);
+  }
+
 }
