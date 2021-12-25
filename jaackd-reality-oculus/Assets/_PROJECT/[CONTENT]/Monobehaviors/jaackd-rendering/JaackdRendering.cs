@@ -241,6 +241,10 @@ namespace jaackd {
       if (argsBuffer != null)
         argsBuffer.Release();
       argsBuffer = null;
+
+      if (materialsBuffer != null)
+        materialsBuffer.Release();
+      materialsBuffer = null;
     }
 
     void UpdateMaterialsBuffer() {
