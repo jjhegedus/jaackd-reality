@@ -21,38 +21,10 @@ Shader "Instanced/InstancedShader" {
 
                 sampler2D _MainTex;
 
-
-                // A constant buffer that stores each set of view and projection matrices in column-major format.
-                cbuffer ViewProjectionConstantBuffer : register(b1)
-                {
-                    float4x4 viewProjection[2];
-                };
-
-                struct ModelVertex {
-                    float3 position;
-                    float pad;
-                };
-
-                struct PerVertexData {
-            	    unsigned int instanceId;
-				    unsigned int index;
-				    unsigned int eye;
-				    unsigned int materialId;
-			    };
-
-
-			    struct PerInstanceData {
-				    float4x4 world;
-			    };
-
             #if SHADER_TARGET >= 45
-                StructuredBuffer<float4>            positionBuffer;
-                StructuredBuffer<float4>            materialsBuffer;
-                StructuredBuffer<ModelVertex>       modelVertices;
-                StructuredBuffer<PerVertexData>     perVertexData;
-                StructuredBuffer<PerInstanceData>   perInstanceData;
+                StructuredBuffer<float4> positionBuffer;
+                StructuredBuffer<float4> materialsBuffer;
             #endif
-
 
                 struct v2f
                 {
