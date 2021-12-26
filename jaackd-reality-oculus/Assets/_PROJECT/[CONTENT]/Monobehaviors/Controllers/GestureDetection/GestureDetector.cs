@@ -40,15 +40,10 @@ public class GestureDetector : MonoBehaviour {
       Debug.Log(e.Message);
     }
 
-    Gesture currentGesture = previousGesture;
-
-    if (debugMode && Input.GetKeyDown(KeyCode.KeypadEnter)) {
-      currentGesture = Recognize();
-    }
-
+    Gesture currentGesture = Recognize();
     bool hasRecognized = !currentGesture.Equals(new Gesture());
 
-    if (!hasRecognized && !currentGesture.Equals(previousGesture)) {
+    if (hasRecognized && !currentGesture.Equals(previousGesture)) {
       Debug.Log("Gesture Found: " + currentGesture.name);
       previousGesture = currentGesture;
       currentGesture.onRecognized.Invoke();
@@ -71,7 +66,6 @@ public class GestureDetector : MonoBehaviour {
 
   Gesture Recognize() {
     Gesture currentGesture = new Gesture();
-    string resultMessage = "";
 
     float currentMin = Mathf.Infinity;
 
@@ -79,9 +73,9 @@ public class GestureDetector : MonoBehaviour {
       float sumDistance = 0;
       bool isDiscarded = false;
 
-      // If the number of fingers does not match, it returns an error
+      // If the number of fingers does not match it doesn't match and can't be tested so break out of the loop
       if (fingerBones.Count != g.fingersData.Count)
-        throw new System.Exception("Different number of tracked fingers");
+        break;
 
       try {
         float distance = 0;
@@ -99,9 +93,8 @@ public class GestureDetector : MonoBehaviour {
           currentMin = sumDistance;
           currentGesture = g;
           resultText.text = "Found gesture " + g.name;
-          g.onRecognized.Invoke();
         } else {
-          resultText.text += "distance:" + distance + "> threshhold:" + threshhold + " \n";
+          resultText.text = "No gesture found... distance = " + distance + "> threshhold = " + threshhold + " \n";
         }
       } catch (System.Exception e) {
         resultText.text += e.Message;
