@@ -30,6 +30,9 @@ public class GestureDetector : MonoBehaviour {
 
   // Update is called once per frame
   void Update() {
+
+    if (OVRInput.IsControllerConnected(OVRInput.Controller.Hands)) {
+
     fingerBones = new List<OVRBone>(skeleton.Bones);
 
     try {
@@ -47,6 +50,7 @@ public class GestureDetector : MonoBehaviour {
       Debug.Log("Gesture Found: " + currentGesture.name);
       previousGesture = currentGesture;
       currentGesture.onRecognized.Invoke();
+      }
     }
   }
 

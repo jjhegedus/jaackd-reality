@@ -34,7 +34,7 @@ namespace jaackd {
     public Matrix4x4[] viewProjection;
   }
 
-
+  [DisallowMultipleComponent]
   public class JaackdRendering : MonoBehaviour {
     static Vector3 red = new Vector3 { x = 1, y = 0, z = 0 };
 
