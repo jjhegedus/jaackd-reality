@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.24647538, g: 0.28234535, b: 0.3457032, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -955,6 +955,24 @@ MonoBehaviour:
     submeshTris: []
     _meshBirth: 1
     _mesh: {fileID: 4300000, guid: e501f465aa7b3d741961523d466845c8, type: 2}
+--- !u!1 &540378404 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7909104360732997336, guid: 088c2fef8752ec840999486cd5942330, type: 3}
+  m_PrefabInstance: {fileID: 7909104361282879203}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &540378405
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 540378404}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ba62b464f86492499f5a92fa48dc8ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  recurse: 1
 --- !u!1 &551019275
 GameObject:
   m_ObjectHideFlags: 0
@@ -1192,13 +1210,14 @@ GameObject:
   m_Component:
   - component: {fileID: 823160596}
   - component: {fileID: 823160597}
+  - component: {fileID: 823160598}
   m_Layer: 0
   m_Name: Test Environment
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &823160596
 Transform:
   m_ObjectHideFlags: 0
@@ -1234,6 +1253,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   recurse: 1
+--- !u!114 &823160598
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 823160595}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea7d7495833204790ba1d3a8755397f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ConversionMode: 0
 --- !u!1 &984544757 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1732808951507650, guid: a9d2de84afb308a4796cc671d3432b4d, type: 3}
@@ -3581,7 +3613,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 401161208958451468, guid: cdb100300e417e64c8486e6511177482, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 6
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 401161208958451468, guid: cdb100300e417e64c8486e6511177482, type: 3}
       propertyPath: m_LocalPosition.z

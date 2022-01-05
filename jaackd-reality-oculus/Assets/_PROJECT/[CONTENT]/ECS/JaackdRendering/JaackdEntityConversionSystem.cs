@@ -3,8 +3,9 @@ using Unity.Transforms;
 using UnityEngine;
 using System;
 using System.Collections.Generic;
+using jaackd;
 
-[UpdateInGroup(typeof(GameObjectBeforeConversionGroup))]
+[UpdateInGroup(typeof(GameObjectAfterConversionGroup))]
 
 public class JaackdEntityConversionSystem : GameObjectConversionSystem {
 
@@ -27,7 +28,7 @@ public class JaackdEntityConversionSystem : GameObjectConversionSystem {
       LoadGameObjectsFromJaackdEntityAuthoringComponent(jaackdEntityAuthoringComponent);
     }
 
-    foreach(GameObject gameObject in gameObjectsToConvert) {
+    foreach (GameObject gameObject in gameObjectsToConvert) {
       ConvertGameObject(gameObject);
     }
 
@@ -78,7 +79,16 @@ public class JaackdEntityConversionSystem : GameObjectConversionSystem {
   }
 
   private void ConvertGameObject(GameObject gameObject) {
-    Debug.Log("Converting gameObject: " + gameObject.name + Environment.NewLine);
+    Debug.Log("Converting gameObject  : " + gameObject.name + Environment.NewLine);
+    var entity = GetPrimaryEntity(gameObject);
+
+    JaackdRenderingComponent jrc = new JaackdRenderingComponent();
+    DstEntityManager.AddComponentData(entity, jrc);
+
+    // Remove default transform system components
+    DstEntityManager.RemoveComponent<Translation>(entity);
+    DstEntityManager.RemoveComponent<Rotation>(entity);
+    DstEntityManager.RemoveComponent<JaackdEntityAuthoringComponent>(entity);
   }
 
 

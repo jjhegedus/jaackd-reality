@@ -1,6 +1,11 @@
 using Unity.Entities;
+using System;
 
-public struct EntityConversionComponent : IComponentData
-{
-    
+namespace jaackd {
+
+  [Serializable]
+    public struct JaackdRenderingComponent : IComponentData {
+
+  }
+
 }
