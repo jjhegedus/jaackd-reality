@@ -186,8 +186,8 @@ namespace jaackd {
         UpdateBuffers();
 
       // Pad input
-      if (Input.GetAxisRaw("Horizontal") != 0.0f)
-        instanceCount = (int)Mathf.Clamp(instanceCount + Input.GetAxis("Horizontal") * 40000, 1.0f, 5000000.0f);
+      if (UnityEngine.Input.GetAxisRaw("Horizontal") != 0.0f)
+        instanceCount = (int)Mathf.Clamp(instanceCount + UnityEngine.Input.GetAxis("Horizontal") * 40000, 1.0f, 5000000.0f);
 
       // Render
       Graphics.DrawMeshInstancedIndirect(instanceMesh, subMeshIndex, instanceMaterial, new Bounds(Vector3.zero, new Vector3(100.0f, 100.0f, 100.0f)), argsBuffer);

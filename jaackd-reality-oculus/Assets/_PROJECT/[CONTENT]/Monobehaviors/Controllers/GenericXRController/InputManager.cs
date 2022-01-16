@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.Events;
 using System;
 
-namespace ndtech {
+namespace jaackd {
   namespace Input {
     public class InputManager : Singleton<InputManager> {
       GenericXRController inputActions;
