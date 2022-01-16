@@ -12,7 +12,7 @@ PlayerSettings:
   targetDevice: 2
   useOnDemandResources: 0
   accelerometerFrequency: 60
-  companyName: DefaultCompany
+  companyName: jaackd
   productName: jaackd-reality-oculus
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
@@ -137,8 +137,11 @@ PlayerSettings:
   bundleVersion: 0.1
   preloadedAssets:
   - {fileID: 0}
-  - {fileID: 3867006615833251553, guid: 44217488c41b3b34cb9104c7d7fb6365, type: 2}
-  - {fileID: 11400000, guid: 90e86d86bf8e8de4c8dc43716d70a457, type: 2}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: -4894463779986969288, guid: cc37cc01ac76f5f4bb808371efcb8d08, type: 2}
+  - {fileID: 11400000, guid: 5b35e72cdbae2e34cbfa5cf0dbd1796b, type: 2}
+  - {fileID: 0}
   metroInputSource: 0
   wsaTransparentSwapchain: 0
   m_HolographicPauseOnTrackingLoss: 1
@@ -691,9 +694,12 @@ PlayerSettings:
     7: STARTER_ASSETS_PACKAGES_CHECKED
   additionalCompilerArguments: {}
   platformArchitecture: {}
-  scriptingBackend: {}
-  il2cppCompilerConfiguration: {}
-  managedStrippingLevel: {}
+  scriptingBackend:
+    Standalone: 0
+  il2cppCompilerConfiguration:
+    Standalone: 1
+  managedStrippingLevel:
+    Standalone: 0
   incrementalIl2cppBuild: {}
   suppressCommonWarnings: 1
   allowUnsafeCode: 0
