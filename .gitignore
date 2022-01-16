@@ -1,6 +1,6 @@
 # This .gitignore file should be placed at the root of your Unity project directory
 #
-# Get latest from https://github.com/github/gitignore/blob/master/Unity.gitignore
+# Get latest from https://github.com/jaackd-reality-oculus/main/.gitignore
 #
 jaackd-reality-oculus/[Ll]ibrary/
 jaackd-reality-oculus/[Tt]emp/
@@ -58,6 +58,11 @@ jaackd-reality-oculus/sysinfo.txt
 
 # Crashlytics generated file
 jaackd-reality-oculus/crashlytics-build.properties
+
+# Specific changes to account for jaack default project structure
 jaackd-reality-oculus/Assets/*
 !jaackd-reality-oculus/Assets/_PROJECT
+!jaackd-reality-oculus/Assets/Plugins
+!jaackd-reality-oculus/Assets/XR
+!jaackd-reality-oculus/Assets/Resources
 jaackd-reality-oculus/obj/*
