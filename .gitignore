@@ -62,7 +62,9 @@ jaackd-reality-oculus/crashlytics-build.properties
 # Specific changes to account for jaack default project structure
 jaackd-reality-oculus/Assets/*
 !jaackd-reality-oculus/Assets/_PROJECT
-# !jaackd-reality-oculus/Assets/Plugins
-# !jaackd-reality-oculus/Assets/XR
-# !jaackd-reality-oculus/Assets/Resources
+!jaackd-reality-oculus/Assets/XR
+!jaackd-reality-oculus/Assets/Oculus/VR/Scripts
+!jaackd-reality-oculus/Assets/Oculus/VR/ThirdParty
+!jaackd-reality-oculus/Assets/TextMesh Pro
 jaackd-reality-oculus/obj/*
+.vs
