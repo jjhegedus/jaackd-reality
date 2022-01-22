@@ -2229,7 +2229,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1540284902}
   m_LocalRotation: {x: -0, y: -1, z: -0, w: -0.00000004371139}
-  m_LocalPosition: {x: 0, y: 1.5499837, z: 0.3749315}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.04310289, y: 0.04310287, z: 0.04310287}
   m_Children:
   - {fileID: 1591614159}
@@ -2342,7 +2342,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1627128518
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2667,7 +2667,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1839561768}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 6.12529e-16, y: -1.6770002, z: -0.08700001}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1.0000001, y: 1, z: 1}
   m_Children:
   - {fileID: 1540284903}
@@ -3248,10 +3248,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1773304911}
     m_Modifications:
+    - target: {fileID: 401161207219975945, guid: cdb100300e417e64c8486e6511177482, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 101f11e583b747745b18d5be69ba6c99, type: 3}
     - target: {fileID: 401161207219975948, guid: cdb100300e417e64c8486e6511177482, type: 3}
       propertyPath: skinnedMeshRenderer
       value: 
       objectReference: {fileID: 116372053068133340}
+    - target: {fileID: 401161207219975949, guid: cdb100300e417e64c8486e6511177482, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 401161207219975949, guid: cdb100300e417e64c8486e6511177482, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 401161207219975954, guid: cdb100300e417e64c8486e6511177482, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -3286,11 +3298,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 401161208958451468, guid: cdb100300e417e64c8486e6511177482, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 6
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 401161208958451468, guid: cdb100300e417e64c8486e6511177482, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 2
+      value: -2
       objectReference: {fileID: 0}
     - target: {fileID: 401161208958451468, guid: cdb100300e417e64c8486e6511177482, type: 3}
       propertyPath: m_LocalRotation.w
