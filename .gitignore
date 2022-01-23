@@ -59,19 +59,5 @@ jaackd-reality-oculus/sysinfo.txt
 # Crashlytics generated file
 jaackd-reality-oculus/crashlytics-build.properties
 
-# Specific changes to account for jaack default project structure
-jaackd-reality-oculus/Assets/*
-!jaackd-reality-oculus/Assets/_PROJECT
-!jaackd-reality-oculus/Assets/XR
-!jaackd-reality-oculus/Assets/Oculus/
-jaackd-reality-oculus/Assets/Oculus/Avatar
-jaackd-reality-oculus/Assets/Oculus/AudioManager
-jaackd-reality-oculus/Assets/Oculus/SampleFramework
-jaackd-reality-oculus/Assets/Oculus/Platform/Samples
-jaackd-reality-oculus/Assets/Oculus/LipSync/Plugins/Android32
-jaackd-reality-oculus/Assets/Oculus/LipSync/Plugins/MacOSX
-!jaackd-reality-oculus/Assets/Oculus/VR/Scripts
-!jaackd-reality-oculus/Assets/Oculus/VR/ThirdParty
-!jaackd-reality-oculus/Assets/TextMesh Pro
-jaackd-reality-oculus/obj/*
+# Visual Studio solution settings
 .vs
