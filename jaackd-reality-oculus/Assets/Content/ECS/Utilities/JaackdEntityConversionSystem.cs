@@ -13,127 +13,60 @@ namespace jaackd {
   public class JaackdEntityConversionSystem : GameObjectConversionSystem {
 
 
-    EndSimulationEntityCommandBufferSystem endSimCommandBufferSystem;
-
-
-    static bool ExecuteIfComponentExists<ComponentType>(Entity src, ref Entity dst, EntityManager mgr, Func<Entity, Entity, EntityManager, bool> lambda) where ComponentType : struct, IComponentData {
-      if (mgr.HasComponent<ComponentType>(src)) {
-        Utilities.PrintIfEditor("-- Found " + typeof(ComponentType).Name + " Component. Executing the lambda function\n");
-        return lambda(src, dst, mgr);
-      };
-
-      return false;
-    }
-
-
-    static bool CopyComponent<ComponentType>(Entity src, ref Entity dst, EntityManager mgr) where ComponentType : struct, IComponentData {
-      if (mgr.HasComponent<ComponentType>(src)) {
-        Utilities.PrintIfEditor("-- Found " + typeof(ComponentType).Name + " Component. Adding it to the destination type\n");
-        mgr.AddComponent<ComponentType>(dst);
-      };
-
-      return mgr.HasComponent<ComponentType>(dst);
-    }
-
-
-    static ComponentType GetComponentIfExists<ComponentType>(Entity src, EntityManager mgr) where ComponentType : struct, IComponentData {
-      if (mgr.HasComponent<ComponentType>(src)) {
-        Utilities.PrintIfEditor("-- Found " + typeof(ComponentType).Name + " Component. Returning it.\n");
-        return mgr.GetComponentData<ComponentType>(src);
-      };
-
-      Utilities.PrintIfEditor("-- Unable to find " + typeof(ComponentType).Name + " Component. Returning an empty constucted component of " + typeof(ComponentType).Name + " type .\n");
-      return new ComponentType { };
-    }
-
-
-    static ComponentType GetSharedComponentIfExists<ComponentType>(Entity src, EntityManager mgr) where ComponentType : struct, ISharedComponentData {
-      if (mgr.HasComponent<ComponentType>(src)) {
-        Utilities.PrintIfEditor("-- Found " + typeof(ComponentType).Name + " Shared Component. Returning it.\n");
-        return mgr.GetSharedComponentData<ComponentType>(src);
-      };
-
-      Utilities.PrintIfEditor("-- Unable to find " + typeof(ComponentType).Name + " SharedComponent. Returning an empty constucted component of " + typeof(ComponentType).Name + " type .\n");
-      return new ComponentType { };
-    }
-
-
-    protected override void OnCreate() {
-      UnityEngine.Debug.Log("JaackdEntityConversionsystem:OnCreate ");
-      endSimCommandBufferSystem = World.GetOrCreateSystem<EndSimulationEntityCommandBufferSystem>();
-      base.OnCreate();
-    }
-
 
     protected override void OnUpdate() {
       Utilities.PrintIfEditor("JaackdEntityConversionSystem: OnUpdate");
-      EntityCommandBuffer ecb = endSimCommandBufferSystem.CreateCommandBuffer();
 
       // Iterate over all jaack authoring components
       Entities.ForEach((JaackdEntityAuthoringComponent input) => {
-        UnityEngine.Debug.Log("Converting and entity");
+        Utilities.PrintIfEditor("If Editor: Converting entity " + input.name);
+
+        EntityManager dstMgr = DstEntityManager;
 
         // Get the destination world entity associated with the authoring GameObject
-        var primaryEntity = GetPrimaryEntity(input);
-
-        // Create a new entity to hold the Jaackd components
-        var jaackdEntity = CreateAdditionalEntity(input);
-
-        ECSUtilities.CopyNameIfEditor(primaryEntity, jaackdEntity, DstEntityManager);
-        Utilities.PrintIfEditor("\n\nEntity name = " + ECSUtilities.GetNameIfEditor(jaackdEntity, DstEntityManager) + "\n");
-
+        var jaackdEntity = GetPrimaryEntity(input);
 
         // Handle transformations
         DstEntityManager.AddComponentData(
           jaackdEntity,
           new JaackdTransformComponent(
-            GetComponentIfExists<Rotation>(primaryEntity, DstEntityManager),
-            GetComponentIfExists<Translation>(primaryEntity, DstEntityManager),
-            GetComponentIfExists<Scale>(primaryEntity, DstEntityManager),
-            GetComponentIfExists<LocalToWorld>(primaryEntity, DstEntityManager)
+            ECSUtilities.RemoveAndReturnComponentIfExists<Rotation>(jaackdEntity, ref dstMgr),
+            ECSUtilities.RemoveAndReturnComponentIfExists<Translation>(jaackdEntity, ref dstMgr),
+            ECSUtilities.RemoveAndReturnComponentIfExists<Scale>(jaackdEntity, ref dstMgr),
+            ECSUtilities.RemoveAndReturnComponentIfExists<LocalToWorld>(jaackdEntity, ref dstMgr)
             )
           );
 
 
         // JJH: TODO: Not doing anything with this yet
-        LocalToParent localToParent = GetComponentIfExists<LocalToParent>(primaryEntity, DstEntityManager);
+        LocalToParent localToParent = ECSUtilities.RemoveAndReturnComponentIfExists<LocalToParent>(jaackdEntity, ref dstMgr);
 
         // Handle Physics
         DstEntityManager.AddComponentData(
           jaackdEntity,
           new JaackdPhysicsComponent(
-            true,
-            GetComponentIfExists<PhysicsMass>(primaryEntity, DstEntityManager),
-            GetComponentIfExists<PhysicsVelocity>(primaryEntity, DstEntityManager),
-            GetComponentIfExists<PhysicsDamping>(primaryEntity, DstEntityManager)
+            ECSUtilities.RemoveAndReturnComponentIfExists<PhysicsCollider>(jaackdEntity, ref dstMgr),
+            ECSUtilities.RemoveAndReturnComponentIfExists<PhysicsMass>(jaackdEntity, ref dstMgr),
+            ECSUtilities.RemoveAndReturnComponentIfExists<PhysicsVelocity>(jaackdEntity, ref dstMgr),
+            ECSUtilities.RemoveAndReturnComponentIfExists<PhysicsDamping>(jaackdEntity, ref dstMgr)
             )
           );
+
+        DstEntityManager.RemoveComponent<PerInstanceCullingTag>(jaackdEntity);
 
         // Handle render bounds
         DstEntityManager.AddComponentData(
           jaackdEntity,
           new JaackdRenderingComponent(
-            GetComponentIfExists<RenderBounds>(primaryEntity, DstEntityManager),
-            GetComponentIfExists<WorldRenderBounds>(primaryEntity, DstEntityManager),
+            ECSUtilities.RemoveAndReturnComponentIfExists<RenderBounds>(jaackdEntity, ref dstMgr),
+            ECSUtilities.RemoveAndReturnComponentIfExists<WorldRenderBounds>(jaackdEntity, ref dstMgr),
             true)
           );
 
         DstEntityManager.AddSharedComponentData<JaackdMeshComponent>(
           jaackdEntity,
-          new JaackdMeshComponent(GetSharedComponentIfExists<RenderMesh>(primaryEntity, DstEntityManager))
+          new JaackdMeshComponent(ECSUtilities.RemoveAndReturnSharedComponentIfExists<RenderMesh>(jaackdEntity, DstEntityManager))
           );
-
-        //// Finally disable the primary entity
-        //ECSUtilities.PrintIfEditor("--disable the primary entity");
-        //DstEntityManager.SetEnabled(srcEntity, false);
-        //DstEntityManager.AddComponent<Disabled>(srcEntity);
-        //ECSUtilities.PrintIfEditor("--after disabling the primary entity");
-
-        //// Finally destroy the primary entity
-        //ECSUtilities.PrintIfEditor("-- destroying " + ECSUtilities.GetNameIfEditor(srcEntity, DstEntityManager));
-        //endSimCommandBufferSystem.EntityManager.DestroyEntity(srcEntity);
-        //ecb.DestroyEntity(primaryEntity);
-        DstEntityManager.AddComponent<JaackdDeleteEntityTag>(primaryEntity);
 
       });
 
