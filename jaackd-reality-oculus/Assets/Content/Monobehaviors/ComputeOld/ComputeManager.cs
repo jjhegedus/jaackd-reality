@@ -52,7 +52,7 @@ namespace jaackd {
 
 
     void Init() {
-      Debug.Log("ComputeManager.cs:Init");
+      Utilities.PrintIfEditor("ComputeManager.cs:Init");
 
       // Set the boundary in which data will be rendered
       computeBounds.extents = new Vector3(100, 100, 100);
@@ -75,7 +75,7 @@ namespace jaackd {
       red
     };
 
-      Debug.Log("sizeof(float) *4 = " + sizeof(float) * 4);
+      Utilities.PrintIfEditor("sizeof(float) *4 = " + sizeof(float) * 4);
 
       materialsComputeBuffer = new ComputeBuffer(1, sizeof(float) * 4, ComputeBufferType.Structured);
       material.SetBuffer("materials", materialsComputeBuffer);

@@ -9,6 +9,8 @@ public class HandTrackingUI : MonoBehaviour
   public OVRInputModule inputModule;
 
   public void Start() {
-    inputModule.rayTransform = hand.PointerPose;
+    if (hand != null && hand.PointerPose != null) {
+      inputModule.rayTransform = hand.PointerPose;
+    }
   }
 }

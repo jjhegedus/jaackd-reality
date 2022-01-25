@@ -8,8 +8,6 @@ namespace jaackd {
 
   public class ECSUtilities {
 
-
-
     public static void SetNameIfEditor(Entity dstEntity, EntityManager mgr, string name) {
 #if UNITY_EDITOR
       mgr.SetName(dstEntity, name);

@@ -26,8 +26,10 @@ namespace jaackd {
 
     // Start is called before the first frame update
     void Start() {
-      fingerBones = new List<OVRBone>(skeleton.Bones);
-      previousGesture = new Gesture();
+      if (skeleton != null && skeleton.Bones != null) {
+        fingerBones = new List<OVRBone>(skeleton.Bones);
+        previousGesture = new Gesture();
+      }
     }
 
     // Update is called once per frame
