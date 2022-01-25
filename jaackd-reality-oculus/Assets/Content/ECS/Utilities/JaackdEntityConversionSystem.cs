@@ -15,27 +15,41 @@ namespace jaackd {
 
 
     protected override void OnUpdate() {
-      Utilities.PrintIfEditor("JaackdEntityConversionSystem: OnUpdate");
+      Utilities.PrintIfEditor("JaackdEntityConversionSystem: OnUpdate ");
 
       // Iterate over all jaack authoring components
       Entities.ForEach((JaackdEntityAuthoringComponent input) => {
-        Utilities.PrintIfEditor("If Editor: Converting entity " + input.name);
+        Utilities.PrintIfEditor("If Editor: Converting entity " + input.name + "\n");
 
         EntityManager dstMgr = DstEntityManager;
 
         // Get the destination world entity associated with the authoring GameObject
         var jaackdEntity = GetPrimaryEntity(input);
 
+
         // Handle transformations
-        DstEntityManager.AddComponentData(
+        if (dstMgr.HasComponent<CompositeScale>(jaackdEntity)) {
+          DstEntityManager.AddComponentData(
+            jaackdEntity,
+            new JaackdTransformComponent(
+              ECSUtilities.RemoveAndReturnComponentIfExists<Rotation>(jaackdEntity, ref dstMgr),
+              ECSUtilities.RemoveAndReturnComponentIfExists<Translation>(jaackdEntity, ref dstMgr),
+              ECSUtilities.RemoveAndReturnComponentIfExists<CompositeScale>(jaackdEntity, ref dstMgr),
+              ECSUtilities.RemoveAndReturnComponentIfExists<LocalToWorld>(jaackdEntity, ref dstMgr)
+              )
+            );
+
+        } else {
+          DstEntityManager.AddComponentData(
           jaackdEntity,
-          new JaackdTransformComponent(
-            ECSUtilities.RemoveAndReturnComponentIfExists<Rotation>(jaackdEntity, ref dstMgr),
-            ECSUtilities.RemoveAndReturnComponentIfExists<Translation>(jaackdEntity, ref dstMgr),
-            ECSUtilities.RemoveAndReturnComponentIfExists<Scale>(jaackdEntity, ref dstMgr),
-            ECSUtilities.RemoveAndReturnComponentIfExists<LocalToWorld>(jaackdEntity, ref dstMgr)
-            )
-          );
+            new JaackdTransformComponent(
+              ECSUtilities.RemoveAndReturnComponentIfExists<Rotation>(jaackdEntity, ref dstMgr),
+              ECSUtilities.RemoveAndReturnComponentIfExists<Translation>(jaackdEntity, ref dstMgr),
+              ECSUtilities.RemoveAndReturnComponentIfExists<Scale>(jaackdEntity, ref dstMgr),
+              ECSUtilities.RemoveAndReturnComponentIfExists<LocalToWorld>(jaackdEntity, ref dstMgr)
+              )
+            );
+        }
 
 
         // JJH: TODO: Not doing anything with this yet

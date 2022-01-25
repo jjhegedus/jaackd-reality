@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Mathematics;
 
 
 namespace jaackd {
@@ -21,6 +22,14 @@ namespace jaackd {
 #if UNITY_EDITOR
       Debug.LogWarningFormat(formatString, args);
 #endif
+    }
+
+
+    public static float3 GetScale(float4x4 matrix) { 
+      return new float3(
+      math.length(matrix.c0.xyz),
+      math.length(matrix.c1.xyz),
+      math.length(matrix.c2.xyz));
     }
 
 
