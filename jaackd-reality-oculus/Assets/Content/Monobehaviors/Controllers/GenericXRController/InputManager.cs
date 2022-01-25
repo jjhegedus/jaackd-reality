@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.Events;
 using System;
 
-namespace ndtech {
+namespace jaackd {
   namespace Input {
     public class InputManager : Singleton<InputManager> {
       GenericXRController inputActions;
@@ -66,7 +66,7 @@ namespace ndtech {
           OnRightGripUpdated.Invoke(rightGripValue);
           rightGripPressed = false;
           rightGripReleased = false;
-          //Debug.Log("rightGripValue = " + rightGripValue);
+          //Utilities.PrintIfEditor("rightGripValue = " + rightGripValue);
         }
 
         if (rightGripValue > (1 - triggerThreshhold)) {
@@ -74,14 +74,14 @@ namespace ndtech {
             OnRightGripPressed.Invoke();
             rightGripPressed = true;
           }
-          //Debug.Log("Right Grip Pressed");
+          //Utilities.PrintIfEditor("Right Grip Pressed");
         }
         if (rightGripValue < triggerThreshhold) {
           if (!rightGripReleased) {
             OnRightGripReleased.Invoke();
             rightGripReleased = false;
           }
-          //Debug.Log("Right Grip Released");
+          //Utilities.PrintIfEditor("Right Grip Released");
         }
       }
 
@@ -93,7 +93,7 @@ namespace ndtech {
           OnLeftGripUpdated.Invoke(leftGripValue);
           leftGripPressed = false;
           leftGripReleased = false;
-          //Debug.Log("leftGripValue = " + leftGripValue);
+          //Utilities.PrintIfEditor("leftGripValue = " + leftGripValue);
         }
 
         if (leftGripValue > (1 - triggerThreshhold)) {
@@ -101,14 +101,14 @@ namespace ndtech {
             OnLeftGripPressed.Invoke();
             leftGripPressed = true;
           }
-          //Debug.Log("Left Grip Pressed");
+          //Utilities.PrintIfEditor("Left Grip Pressed");
         }
         if (leftGripValue < triggerThreshhold) {
           if (!leftGripReleased) {
             OnLeftGripReleased.Invoke();
             leftGripReleased = true;
           }
-          ///Debug.Log("Left Grip Released");
+          ///Utilities.PrintIfEditor("Left Grip Released");
         }
       }
 
@@ -118,18 +118,18 @@ namespace ndtech {
         if (rightTriggerValue > triggerThreshhold && rightTriggerValue < (1 - triggerThreshhold)) {
           OnRightTriggerUpdated.Invoke(rightTriggerValue);
           rightTriggerPressed = false;
-          //Debug.Log("rightTriggerValue = " + rightTriggerValue);
+          //Utilities.PrintIfEditor("rightTriggerValue = " + rightTriggerValue);
         }
 
         if (!rightTriggerPressed && rightTriggerValue > (1 - triggerThreshhold)) {
           OnRightTriggerPressed.Invoke();
           rightTriggerPressed = true;
-          //Debug.Log("Right Trigger Pressed");
+          //Utilities.PrintIfEditor("Right Trigger Pressed");
         }
         if (rightTriggerPressed && rightTriggerValue < triggerThreshhold) {
           OnRightTriggerReleased.Invoke();
           rightTriggerPressed = false;
-          //Debug.Log("Right Trigger Released");
+          //Utilities.PrintIfEditor("Right Trigger Released");
         }
       }
 
@@ -139,18 +139,18 @@ namespace ndtech {
         if (leftTriggerValue > triggerThreshhold && leftTriggerValue < (1 - triggerThreshhold)) {
           OnLeftTriggerUpdated.Invoke(leftTriggerValue);
           leftTriggerPressed = false;
-          //Debug.Log("leftTriggerValue = " + leftTriggerValue);
+          //Utilities.PrintIfEditor("leftTriggerValue = " + leftTriggerValue);
         }
 
         if (!leftTriggerPressed && leftTriggerValue > (1 - triggerThreshhold)) {
           OnLeftTriggerPressed.Invoke();
           leftTriggerPressed = true;
-          //Debug.Log("Left Trigger Pressed");
+          //Utilities.PrintIfEditor("Left Trigger Pressed");
         }
         if (leftTriggerPressed && leftTriggerValue < triggerThreshhold) {
           OnLeftTriggerReleased.Invoke();
           leftTriggerPressed = false;
-          //Debug.Log("Left Trigger Released");
+          //Utilities.PrintIfEditor("Left Trigger Released");
         }
       }
 

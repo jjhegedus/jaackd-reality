@@ -4,81 +4,76 @@ using UnityEngine;
 using System;
 using System.Collections.Generic;
 
-[UpdateInGroup(typeof(GameObjectBeforeConversionGroup))]
 
-public class JaackdEntityConversionSystem : GameObjectConversionSystem {
+namespace jaackd {
 
-  HashSet<JaackdEntityAuthoringComponent> jaackdEntityAuthoringComponents = new HashSet<JaackdEntityAuthoringComponent> { };
-  HashSet<GameObject> gameObjectsToConvert = new HashSet<GameObject> { };
-  bool recurse = false;
+  [UpdateInGroup(typeof(GameObjectAfterConversionGroup))]
 
+  public class JaackdEntityConversionSystem : GameObjectConversionSystem {
 
 
-  protected override void OnUpdate() {
-    Debug.Log("JaackdEntityConversionSystem: OnUpdate");
+    EndSimulationEntityCommandBufferSystem endSimCommandBufferSystem;
 
-    GameObject[] rootGameObjects = UnityEngine.SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects();
 
-    for (int i = 0; i < rootGameObjects.Length; i++) {
-      LoadJaackdEntityAuthoringComponents(rootGameObjects[i]);
+    static bool ExecuteIfComponentExists<ComponentType>(Entity src, ref Entity dst, EntityManager mgr, Func<Entity, Entity, EntityManager, bool> lambda) where ComponentType : struct, IComponentData {
+      if (mgr.HasComponent<ComponentType>(src)) {
+        Utilities.PrintIfEditor("-- Found " + typeof(ComponentType).Name + " Component. Executing the lambda function\n");
+        return lambda(src, dst, mgr);
+      };
+
+      return false;
     }
 
-    foreach (JaackdEntityAuthoringComponent jaackdEntityAuthoringComponent in jaackdEntityAuthoringComponents) {
-      LoadGameObjectsFromJaackdEntityAuthoringComponent(jaackdEntityAuthoringComponent);
+
+    static bool CopyComponent<ComponentType>(Entity src, ref Entity dst, EntityManager mgr) where ComponentType : struct, IComponentData {
+      if (mgr.HasComponent<ComponentType>(src)) {
+        Utilities.PrintIfEditor("-- Found " + typeof(ComponentType).Name + " Component. Adding it to the destination type\n");
+        mgr.AddComponent<ComponentType>(dst);
+      };
+
+      return mgr.HasComponent<ComponentType>(dst);
     }
 
-    foreach(GameObject gameObject in gameObjectsToConvert) {
-      ConvertGameObject(gameObject);
+
+    static ComponentType GetComponentIfExists<ComponentType>(Entity src, EntityManager mgr) where ComponentType : struct, IComponentData {
+      if (mgr.HasComponent<ComponentType>(src)) {
+        Utilities.PrintIfEditor("-- Found " + typeof(ComponentType).Name + " Component. Returning it.\n");
+        return mgr.GetComponentData<ComponentType>(src);
+      };
+
+      Utilities.PrintIfEditor("-- Unable to find " + typeof(ComponentType).Name + " Component. Returning an empty constucted component of " + typeof(ComponentType).Name + " type .\n");
+      return new ComponentType { };
     }
 
-  }
 
-  void LoadJaackdEntityAuthoringComponents(GameObject gameObject) {
-    foreach (JaackdEntityAuthoringComponent jaackdEntityAuthoringComponent in gameObject.GetComponentsInChildren<JaackdEntityAuthoringComponent>()) {
-      jaackdEntityAuthoringComponents.Add(jaackdEntityAuthoringComponent);
+    static ComponentType GetSharedComponentIfExists<ComponentType>(Entity src, EntityManager mgr) where ComponentType : struct, ISharedComponentData {
+      if (mgr.HasComponent<ComponentType>(src)) {
+        Utilities.PrintIfEditor("-- Found " + typeof(ComponentType).Name + " Shared Component. Returning it.\n");
+        return mgr.GetSharedComponentData<ComponentType>(src);
+      };
+
+      Utilities.PrintIfEditor("-- Unable to find " + typeof(ComponentType).Name + " SharedComponent. Returning an empty constucted component of " + typeof(ComponentType).Name + " type .\n");
+      return new ComponentType { };
     }
 
-  }
 
-
-  void LoadGameObjectsFromJaackdEntityAuthoringComponent(JaackdEntityAuthoringComponent jaackdEntityAuthoringComponent) {
-    Debug.Log("LoadGameObjectsFromJaackdEntityAuthoringComponent(" + jaackdEntityAuthoringComponent.gameObject + ") \n" + GetGameObjectDescription(jaackdEntityAuthoringComponent.gameObject));
-
-    recurse = jaackdEntityAuthoringComponent.recurse;
-
-    LoadGameObjectsToConvertFromGameObject(jaackdEntityAuthoringComponent.gameObject);
-
-  }
-
-  private void LoadGameObjectsToConvertFromGameObject(GameObject gameObject) {
-    Debug.Log("LoadGameObjectsToConvertFromGameObject(" + gameObject.name + ")\n" + GetGameObjectDescription(gameObject));
-    gameObjectsToConvert.Add(gameObject);
-
-    if (recurse) {
-      foreach (Transform child in (Transform)gameObject.GetComponent(typeof(Transform))) {
-        LoadGameObjectsToConvertFromGameObject(child.gameObject);
-      }
+    protected override void OnCreate() {
+      endSimCommandBufferSystem = World.GetOrCreateSystem<EndSimulationEntityCommandBufferSystem>();
+      base.OnCreate();
     }
 
-  }
 
-  string GetGameObjectDescription(GameObject gameObject) {
-    string messageString = String.Empty;
+    protected override void OnUpdate() {
+      Utilities.PrintIfEditor("JaackdEntityConversionSystem: OnUpdate");
 
-    Component[] components = gameObject.GetComponents(typeof(Component));
-    for (int k = 0; k < components.Length; k++) {
-      try {
-        messageString += "--component[" + k + "] = " + components[k].GetType().ToString() + Environment.NewLine;
-      } catch (System.Exception e) {
-        Debug.Log("Error in JaackdEntityConversionsystem : OnUpdate : " + e.Message);
-      }
+
+    } 
+
+    private void ConvertGameObject(GameObject gameObject) {
+      Utilities.PrintIfEditor("Converting gameObject: " + gameObject.name + Environment.NewLine);
     }
 
-    return messageString;
-  }
 
-  private void ConvertGameObject(GameObject gameObject) {
-    Debug.Log("Converting gameObject: " + gameObject.name + Environment.NewLine);
   }
 
 

@@ -1,6 +1,9 @@
 using Unity.Entities;
 
-public struct EntityConversionComponent : IComponentData
-{
-    
+
+namespace jaackd {
+  public struct EntityConversionComponent : IComponentData {
+
+  }
+
 }
